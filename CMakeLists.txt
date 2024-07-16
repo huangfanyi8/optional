@@ -20,16 +20,17 @@ foreach (source_file  ${test_list})
     target_include_directories(${file_name} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 endforeach ()
 
+if(WIN32)
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    set(CMAKE_STATIC_LIBRARY_PREFIX "")
+endif()
+
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/bin)
 
-add_library(optional source/optional.cpp
+add_library(optional SHARED source/optional.cpp
                                 include/optional.hpp)
 
-set_target_properties(optional
-                                PROPERTIES
- PREFIX "")
-
 target_include_directories(optional PUBLIC include)
-
+target_link_libraries(main PUBLIC optional)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/bin)
 
